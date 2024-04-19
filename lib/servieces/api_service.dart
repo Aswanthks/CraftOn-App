@@ -336,17 +336,24 @@ class ApiService {
     required String academicYear,
     required String courseName,
     required String stream,
+    required String address
   }) async {
     try {
-      final Uri url = Uri.parse(
-          '$baseUrl/api/student/update-profile/${DbService.getLoginId()!}?name=$name&mobile=$mobile&academic_year=$academicYear&course_name=$courseName');
-      final response = await http.get(url);
+      final Uri url = Uri.parse('$baseUrl/api/student/update-profile');
+      final response = await http.post(
 
-      print('ffffffffffffffffffffffffffff');
+        url,
 
-      print(response.body);
+         body:  {
+        'name' : name,
+        'mobile': mobile,
+        'academic_year' : academicYear,
+        'course_name' : courseName,
+           'address' : address,
+        'id': DbService.getLoginId()
+      });
 
-
+      print(response.statusCode);
       if (response.statusCode == 200) {
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(
@@ -376,7 +383,7 @@ class ApiService {
     required double price,
     required BuildContext context,
   }) async {
-    print('dddddddddddddddddddddddddddddddddddddddddddddddddd');
+
     try {
       final response = await http.post(
         Uri.parse(
@@ -533,6 +540,33 @@ Future<void> orderProduct({
       ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text('Faild')));
 
 
+    }
+  }
+
+
+  Future<void> confirmOrder({required BuildContext context,required String orderId}) async {
+    final url = Uri.parse('$baseUrl/api/student/confirm-order/$orderId');
+
+    try {
+      final response = await http.post(url);
+
+      if (response.statusCode == 200) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: Text('Order confirmed successfully'),
+            duration: Duration(seconds: 2),
+          ),
+        );
+      } else {
+        throw Exception('Failed to confirm order');
+      }
+    } catch (e) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text('Error: $e'),
+          duration: Duration(seconds: 2),
+        ),
+      );
     }
   }
 

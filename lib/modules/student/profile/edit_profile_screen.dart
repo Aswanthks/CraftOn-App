@@ -148,14 +148,7 @@ class _EditStudentsProfileState extends State<EditStudentsProfile> {
                     ),
                   ),
 
-                  Padding(
-                    padding: const  EdgeInsets.symmetric(horizontal: 15, vertical: 10),
-                    child: CustomTextField(
-                      controller: _stramControlller,
-                      hintText: 'Enter your stram',
-                      labelText: 'Stream',
-                    ),
-                  ),
+
                   Padding(
                     padding: const  EdgeInsets.symmetric(horizontal: 15, vertical: 10),
                     child: CustomTextField(
@@ -179,11 +172,12 @@ class _EditStudentsProfileState extends State<EditStudentsProfile> {
                           await ApiService().updateProfile(
                             context: context, 
                             id: widget.id, 
-                            name: widget.name, 
-                            mobile: widget.mobile, 
-                            academicYear: widget.accadamicYear ,
-                            courseName:  widget.courseName, 
-                            stream: widget.stream
+                            name:  _nameController.text,
+                            mobile: _mobileController.text,
+                            academicYear: _accadmicYeae.text ,
+                            courseName:  _courseNameController.text,
+                            stream: _stramControlller.text,
+                            address : _addressController.text
                             );
 
                              Navigator.pop(context,true);

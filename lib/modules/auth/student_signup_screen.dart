@@ -93,8 +93,21 @@ class _StudentSignUpState extends State<StudentSignUp> {
                                 controller: _mobileController,
                                 hintText: 'Enter mobile number',
                                 labelText: 'Mobile number',
-                                validator: (value) =>
-                                     value == null || value.isEmpty ?   'Fill the field' : null,
+                                validator: (value) {
+                                  // Check if the number contains exactly 10 digits
+                                  if (_mobileController.text.length != 10) {
+                                    return 'Mobile number must be 10 digits';
+                                  }
+
+                                  // Check if no two consecutive digits are the same
+                                  // for (int i = 0; i < _mobileController.text.length - 1; i++) {
+                                  //   if (_mobileController.text[i] == _mobileController.text[i ]) {
+                                  //     return  '' ;
+                                  //   }
+                                  // }
+
+                                  return null;
+                                }
                               ),
                             ),
                             Padding(
@@ -176,17 +189,20 @@ class _StudentSignUpState extends State<StudentSignUp> {
                                           loading = true;
                                         });
 
-                                        await ApiService().registerStudent(
-                                            name: _nameController.text,
-                                            email: _emailController.text,
-                                            mobile: _mobileController.text,
-                                            address: _addressController.text,
-                                            stream: _streamController.text,
-                                            academicYear:
-                                                _academicYearController.text,
-                                            courseName: _courseController.text,
-                                            password: _passwordController.text,
-                                            context: context);
+                                        if(formKey.currentState!.validate()){
+
+                                          await ApiService().registerStudent(
+                                              name: _nameController.text,
+                                              email: _emailController.text,
+                                              mobile: _mobileController.text,
+                                              address: _addressController.text,
+                                              stream: _streamController.text,
+                                              academicYear:
+                                              _academicYearController.text,
+                                              courseName: _courseController.text,
+                                              password: _passwordController.text,
+                                              context: context);
+                                        }
 
                                         setState(() {
                                           loading = false;
@@ -208,12 +224,7 @@ class _StudentSignUpState extends State<StudentSignUp> {
                                     Text('Already have an account? '),
                                     InkWell(
                                         onTap: () {
-                                          Navigator.push(
-                                              context,
-                                              MaterialPageRoute(
-                                                builder: (context) =>
-                                                    Login_page(),
-                                              ));
+
                                         },
                                         child: Text(
                                           'Click here to login.',

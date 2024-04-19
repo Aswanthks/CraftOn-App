@@ -111,6 +111,17 @@ class _StudentProductWidgetState extends State<StudentProductWidget> {
                                   ),
                                 ),
                               ),
+
+                              Text(
+                                'Quantity:${data[index]['quantity']}',
+                                maxLines: 2,
+                                overflow: TextOverflow.ellipsis,
+                                style: TextStyle(
+                                  color: Colors.grey,
+                                  fontSize: 15,
+                                  fontWeight: FontWeight.w600,
+                                ),
+                              ),
                               SizedBox(
                                 height: 10,
                               ),

@@ -99,6 +99,7 @@ class _HomeState extends State<Home> {
                     ),
                   ),
                   HighLightWidget(),
+
                   Padding(
                     padding: const EdgeInsets.all(8.0),
                     child: Row(

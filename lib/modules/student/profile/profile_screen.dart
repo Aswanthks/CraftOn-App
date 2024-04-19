@@ -1,12 +1,12 @@
 import 'dart:convert';
 
-
 import 'package:flutter/material.dart';
 import 'package:line_awesome_flutter/line_awesome_flutter.dart';
 
 import '../../../servieces/api_service.dart';
 import '../../../servieces/db_services.dart';
 import '../../auth/login_screen.dart';
+import '../complaint_view.dart';
 import 'edit_profile_screen.dart';
 import 'widget/profile_menu_widget.dart';
 import 'package:http/http.dart' as http;
@@ -22,7 +22,6 @@ class _StudentProfileScreenState extends State<StudentProfileScreen> {
   Future<Map<String, dynamic>> fetchProfileData(String loginId) async {
     final response = await http.get(
       Uri.parse('${ApiService.baseUrl}/api/student/view-profile/$loginId'),
-
     );
 
     print(response.body);
@@ -62,7 +61,6 @@ class _StudentProfileScreenState extends State<StudentProfileScreen> {
             } else {
               var profileData = snapshot.data!;
 
-          
               // Use profileData to populate your UI
               return SingleChildScrollView(
                 child: Container(
@@ -84,7 +82,7 @@ class _StudentProfileScreenState extends State<StudentProfileScreen> {
                         ],
                       ),
                       const SizedBox(height: 10),
-                      Text( profileData['name'],
+                      Text(profileData['name'],
                           style: Theme.of(context).textTheme.headline4),
                       Text(profileData['email'],
                           style: Theme.of(context).textTheme.headline6),
@@ -96,8 +94,8 @@ class _StudentProfileScreenState extends State<StudentProfileScreen> {
                       SizedBox(
                         width: 200,
                         child: ElevatedButton(
-                          onPressed: () async{
-                         await   Navigator.push(
+                          onPressed: () async {
+                            await Navigator.push(
                                 context,
                                 MaterialPageRoute(
                                   builder: (context) => EditStudentsProfile(
@@ -105,18 +103,14 @@ class _StudentProfileScreenState extends State<StudentProfileScreen> {
                                     email: profileData['email'],
                                     address: profileData['address'],
                                     mobile: profileData['mobile'],
-                                    id:profileData['_id'],
+                                    id: profileData['_id'],
                                     stream: 'hhh',
                                     accadamicYear: profileData['academic_year'],
                                     courseName: profileData['course_name'],
                                   ),
                                 ));
 
-                              setState(() {
-                                
-                              });
-
-                            
+                            setState(() {});
                           },
                           style: ElevatedButton.styleFrom(
                               backgroundColor: Colors.red.shade700,
@@ -130,7 +124,22 @@ class _StudentProfileScreenState extends State<StudentProfileScreen> {
                       const Divider(),
                       const SizedBox(height: 10),
 
-                      
+                      ListTile(
+                        onTap: () {
+
+                          Navigator.push(context,MaterialPageRoute(builder: (context) => ComplaintViewScreen(),));
+                        },
+                        title: Text('Complaints'),
+                        trailing: Icon(Icons.arrow_circle_right),
+
+                      ),
+
+                      ListTile(
+                        onTap: () {},
+                        title: Text('Review'),
+                        trailing: Icon(Icons.arrow_circle_right),
+                      ),
+
                       ProfileMenuWidget(
                           title: "Logout",
                           icon: LineAwesomeIcons.alternate_sign_out,
@@ -138,9 +147,11 @@ class _StudentProfileScreenState extends State<StudentProfileScreen> {
                           endIcon: false,
                           onPress: () {
                             Navigator.pushAndRemoveUntil(
-                              context,
-                              MaterialPageRoute(builder: (context) => Login_page(),), 
-                              (route) => false);
+                                context,
+                                MaterialPageRoute(
+                                  builder: (context) => Login_page(),
+                                ),
+                                (route) => false);
                           }),
                     ],
                   ),

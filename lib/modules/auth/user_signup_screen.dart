@@ -83,6 +83,14 @@ class _SignUpUserState extends State<SignUpUser> {
                           controller: _mobileController,
                           hintText: 'Enter mobile number',
                           labelText: 'Mobile number',
+                          validator: (value) {
+                            if (_mobileController.text.length != 10) {
+                              return 'Mobile number must be 10 digits';
+                            }
+                          }
+
+
+
                         ),
                       ),
                       Padding(
@@ -92,6 +100,8 @@ class _SignUpUserState extends State<SignUpUser> {
                           controller: _addressController,
                           hintText: 'Enter your address',
                           labelText: 'Address',
+                          validator: (value) =>
+                          value == null || value.isEmpty ? 'Enter Address' : null,
                         ),
                       ),
                       Padding(
@@ -124,13 +134,7 @@ class _SignUpUserState extends State<SignUpUser> {
                                   loading = true;
                                 });
           
-                                if(
-                                  
-                                  _nameController.text.isNotEmpty &&
-                                  _mobileController.text.isNotEmpty&&
-                                  _emailController.text.isNotEmpty&&
-                                  _passwordController.text.isNotEmpty
-                                ){
+
           
           
           
@@ -145,7 +149,7 @@ class _SignUpUserState extends State<SignUpUser> {
                                   context: context,
                                 );
           
-                                   }
+
                                 }else{
           
                                   ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text('all fields are required!!')));

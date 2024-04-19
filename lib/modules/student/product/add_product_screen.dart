@@ -18,7 +18,7 @@ class _AddProductState extends State<AddProduct> {
   final _nameController = TextEditingController();
   final _priceController = TextEditingController();
   final _descriptionController = TextEditingController();
-  final _imageController = TextEditingController();
+  // final _imageController = TextEditingController();
   final _quantityController = TextEditingController();
 
   String? nameError;
@@ -205,15 +205,7 @@ class _AddProductState extends State<AddProduct> {
                             labelText: 'Description',
                           ),
                         ),
-                        Padding(
-                          padding: const EdgeInsets.symmetric(
-                              horizontal: 15, vertical: 10),
-                          child: CustomTextField(
-                            controller: _imageController,
-                            hintText: 'Upload image',
-                            labelText: 'Product image',
-                          ),
-                        ),
+
                         Padding(
                           padding: const EdgeInsets.symmetric(
                               horizontal: 15, vertical: 10),
@@ -263,7 +255,7 @@ class _AddProductState extends State<AddProduct> {
    
       if (_nameController.text.isNotEmpty &&
           _priceController.text.isNotEmpty &&
-          _imageController.text.isNotEmpty &&
+          // _imageController.text.isNotEmpty &&
           _quantityController.text.isNotEmpty &&
           _descriptionController.text.isNotEmpty) {
 
