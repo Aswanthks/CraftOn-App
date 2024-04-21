@@ -1,6 +1,5 @@
 import 'dart:convert';
 
-
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 
@@ -35,7 +34,6 @@ class _MyProductGridWidgetState extends State<MyProductGridWidget> {
     print(response.body);
 
     if (response.statusCode == 200) {
-      
       // Handle successful response
       return jsonDecode(response.body)['data']; // Decode JSON if successful
     } else {
@@ -54,7 +52,6 @@ class _MyProductGridWidgetState extends State<MyProductGridWidget> {
           } else if (snapshot.hasError) {
             return Center(child: Text('no data'));
           } else {
-
             var data = snapshot.data;
             return Padding(
               padding: const EdgeInsets.symmetric(horizontal: 10),
@@ -77,21 +74,47 @@ class _MyProductGridWidgetState extends State<MyProductGridWidget> {
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            ClipRRect(
-                              borderRadius: BorderRadius.circular(5),
-                              child: InkWell(
-                                onTap: () {
-                                  Navigator.push(
-                                      context,
-                                      MaterialPageRoute(
-                                        builder: (context) => MySingleProduct(details: data[index],),
-                                      ));
-                                },
-                                child: Image.network(
-                                  data[index]['image'][0],
-                                  fit: BoxFit.fill,
+                            Stack(
+                              children: [
+                                ClipRRect(
+                                  borderRadius: BorderRadius.circular(5),
+                                  child: InkWell(
+                                    onTap: () {
+                                      Navigator.push(
+                                          context,
+                                          MaterialPageRoute(
+                                            builder: (context) =>
+                                                MySingleProduct(
+                                              details: data[index],
+                                            ),
+                                          ));
+                                    },
+                                    child: Image.network(
+                                      data[index]['image'][0],
+                                      fit: BoxFit.fill,
+                                    ),
+                                  ),
                                 ),
-                              ),
+                                Positioned(
+                                    top: 0,
+                                    right: 0,
+                                    child: IconButton(
+                                        onPressed: () async {
+                                          data[index]['highlight_status'] == '0'
+                                              ? await addHighlights(
+                                                  data[index]['_id'], context)
+                                              : await removeHighlights(
+                                                  data[index]['_id'], context);
+
+                                          setState(() {});
+                                        },
+                                        icon: Icon(
+                                          data[index]['highlight_status'] == '0'
+                                              ? Icons.favorite_outline
+                                              : Icons.favorite,
+                                          color: Colors.red,
+                                        )))
+                              ],
                             ),
                             Expanded(
                               child: Column(
@@ -110,10 +133,11 @@ class _MyProductGridWidgetState extends State<MyProductGridWidget> {
                                           context,
                                           MaterialPageRoute(
                                             builder: (context) =>
-                                                MySingleProduct(details:data[index]),
+                                                MySingleProduct(
+                                                    details: data[index]),
                                           ));
                                     },
-                                    child:  Text(
+                                    child: Text(
                                       data[index]['price'],
                                       maxLines: 2,
                                       overflow: TextOverflow.ellipsis,
@@ -130,16 +154,14 @@ class _MyProductGridWidgetState extends State<MyProductGridWidget> {
                                     width: MediaQuery.of(context).size.width,
                                     child: CustomButton(
                                       text: 'Edit',
-                                      onPressed: () async{
-                                      await  Navigator.push(
+                                      onPressed: () async {
+                                        await Navigator.push(
                                             context,
                                             MaterialPageRoute(
-                                              builder: (context) =>
-                                                  EditProduct(details:data[index]),
+                                              builder: (context) => EditProduct(
+                                                  details: data[index]),
                                             ));
-                                        setState(() {
-                                          
-                                        });
+                                        setState(() {});
                                       },
                                     ),
                                   ),
@@ -147,19 +169,12 @@ class _MyProductGridWidgetState extends State<MyProductGridWidget> {
                                     width: MediaQuery.of(context).size.width,
                                     child: CustomButton(
                                       text: 'Delete',
-                                      onPressed: () async{
+                                      onPressed: () async {
+                                        setState(() {});
 
-                                        setState(() {
-                                          
-                                        });
-
-                                       await ApiService().deleteProduct(context,  data[index]['_id']);
-                                        setState(() {
-                                          
-                                        });
-
-
-                                        
+                                        await ApiService().deleteProduct(
+                                            context, data[index]['_id']);
+                                        setState(() {});
                                       },
                                     ),
                                   ),
@@ -177,9 +192,65 @@ class _MyProductGridWidgetState extends State<MyProductGridWidget> {
             );
           }
         });
- 
- 
- 
- 
+  }
+
+  Future<void> addHighlights(String productId, BuildContext context) async {
+    final url = Uri.parse(
+        'https://vadakara-mca-craft-backend.onrender.com/api/student/add-highlights/$productId');
+
+    try {
+      final response = await http.get(url);
+
+      if (response.statusCode == 200) {
+        final jsonResponse = response.body;
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: Text('add to highlight'),
+          ),
+        );
+      } else {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: Text('Failed to load highlights'),
+          ),
+        );
+      }
+    } catch (e) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text('Error: $e'),
+        ),
+      );
+    }
+  }
+
+  Future<void> removeHighlights(String productId, BuildContext context) async {
+    final url = Uri.parse(
+        'https://vadakara-mca-craft-backend.onrender.com/api/student/remove-highlights/$productId');
+
+    try {
+      final response = await http.get(url);
+
+      if (response.statusCode == 200) {
+        final jsonResponse = response.body;
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: Text('Removed highlights'),
+          ),
+        );
+      } else {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: Text('Failed to remove product from highlights'),
+          ),
+        );
+      }
+    } catch (e) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text('Error: $e'),
+        ),
+      );
+    }
   }
 }

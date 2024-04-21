@@ -1,4 +1,5 @@
 
+import 'package:crafton_final/modules/user/user_complaint.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
@@ -103,6 +104,17 @@ class ProfileScreen extends StatelessWidget {
                     const SizedBox(height: 30),
                     const Divider(),
                     const SizedBox(height: 10),
+
+
+                    ListTile(
+                      onTap: () {
+                        Navigator.push(context, MaterialPageRoute(builder: (context) => UserComplaintViewScreen() ,));
+                      },
+                      title: Text('My complaint'),
+                      trailing: Icon(Icons.arrow_right),
+
+
+                    ),
 
                     ProfileMenuWidget(
                         title: "Logout",

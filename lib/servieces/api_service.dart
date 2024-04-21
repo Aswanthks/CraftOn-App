@@ -2,6 +2,7 @@ import 'dart:convert';
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 import 'package:http/http.dart' as http;
 
 import '../modules/auth/login_screen.dart';
@@ -569,6 +570,104 @@ Future<void> orderProduct({
       );
     }
   }
+
+
+
+  Future<void> addComplaint({
+    required String loginId, 
+    required String productId, 
+    required String complaint,
+    required BuildContext context,
+    required String title,
+    }) async {
+  final url = 'https://vadakara-mca-craft-backend.onrender.com/api/user/add-complaint';
+  try {
+    final response = await http.post(
+      Uri.parse(url),
+      body: {
+        'login_id': loginId,
+        'product_id': productId,
+        'complaint': complaint,
+        'title' :  title
+
+      },
+    );
+
+    if (response.statusCode == 200) {
+      final responseData = jsonDecode(response.body);
+      
+      // Show a Snackbar with the title
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text('Complaint added'),
+        ),
+      );
+    } else {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text('Failed to add complaint'),
+        ),
+      );
+    }
+  } catch (e) {
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(
+        content: Text('Error: $e'),
+      ),
+    );
+  }
+}
+
+
+Future<void> addFeedback({
+  required String loginId,
+  required String productId, 
+  required String feedback,
+  required BuildContext context
+  
+  }) async {
+  final url = 'https://vadakara-mca-craft-backend.onrender.com/api/user/add-feedback';
+  try {
+    final response = await http.post(
+      Uri.parse(url),
+      body: {
+        'login_id': loginId,
+        'product_id': productId,
+        'feedback': feedback,
+        'reply': '....',
+      },
+    );
+
+    if (response.statusCode == 200) {
+      final responseData = jsonDecode(response.body);
+
+
+      print(responseData);
+      
+      // Show a Snackbar with the message
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text('Feedback added'),
+        ),
+      );
+    } else {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text('Failed to add feedback'),
+        ),
+      );
+    }
+  } catch (e) {
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(
+        content: Text('Error: $e'),
+      ),
+    );
+  }
+}
+
+
+
 
 
 

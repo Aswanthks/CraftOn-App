@@ -130,7 +130,9 @@ class _AllProductWidgetState extends State<AllProductWidget> {
                           GestureDetector(
                             onTap: () async{
 
-                              print('sffffs');
+                              setState(() {
+                                
+                              });
 
                               await ApiService().addToCart(
                                 loginId: DbService.getLoginId()!, 
@@ -163,6 +165,8 @@ class _AllProductWidgetState extends State<AllProductWidget> {
                               ),
                             ),
                           ),
+                        
+                        
                         ],
                       ),
                     ),

@@ -6,19 +6,19 @@ import 'package:crafton_final/widgets/custom_text_field.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 
-class FeedBack extends StatefulWidget {
-  const FeedBack({super.key});
+class UserComplaintViewScreen extends StatefulWidget {
+  const UserComplaintViewScreen({Key? key}) : super(key: key);
 
   @override
-  State<FeedBack> createState() => _FeedBackState();
+  State<UserComplaintViewScreen> createState() => _UserComplaintViewScreenState();
 }
 
-class _FeedBackState extends State<FeedBack> {
+class _UserComplaintViewScreenState extends State<UserComplaintViewScreen> {
   TextEditingController _replyController = TextEditingController();
 
   Future<dynamic> fetchComplaints(String loginId) async {
     final response = await http.get(
-      Uri.parse('https://vadakara-mca-craft-backend.onrender.com/api/user/view-complaint/$loginId'),
+      Uri.parse('https://vadakara-mca-craft-backend.onrender.com/api/user/view-complaint-user/$loginId'),
     );
 
     if (response.statusCode == 200) {
