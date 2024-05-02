@@ -6,14 +6,14 @@ import 'package:crafton_final/widgets/custom_text_field.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 
-class FeedBack extends StatefulWidget {
-  const FeedBack({super.key});
+class FeedBackScreen extends StatefulWidget {
+  const FeedBackScreen({super.key});
 
   @override
-  State<FeedBack> createState() => _FeedBackState();
+  State<FeedBackScreen> createState() => _FeedBackScreenState();
 }
 
-class _FeedBackState extends State<FeedBack> {
+class _FeedBackScreenState extends State<FeedBackScreen> {
   TextEditingController _replyController = TextEditingController();
 
   Future<dynamic> fetchComplaints(String loginId) async {
@@ -34,7 +34,7 @@ class _FeedBackState extends State<FeedBack> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Complaint'),
+        title: Text('Feedback'),
       ),
       body: FutureBuilder<dynamic>(
         future: fetchComplaints(DbService.getLoginId()!), // Replace 'login_id_here' with the actual login ID

@@ -132,44 +132,22 @@ class _HighLightWidgetState extends State<HighLightWidget> {
                         ),
                         GestureDetector(
                           onTap: () async {
-                            GestureDetector(
-                            onTap: () async{
 
-                              
 
-                              await ApiService().addToCart(
-                                loginId: DbService.getLoginId()!, 
-                                productId: data[index]['_id'], 
-                                price:double.parse( data[index]['price']), 
+                            await ApiService().addToCart(
+                                loginId: DbService.getLoginId()!,
+                                productId: data[index]['_id'],
+                                price:double.parse( data[index]['price']),
                                 context: context);
 
                             setState(() {
-                              
+
                             });
-                              
 
 
-                            },
-                            child: Container(
-                              width: MediaQuery.of(context).size.width,
-                              decoration: BoxDecoration(
-                                  color: Colors.red.shade700,
-                                  borderRadius: const BorderRadius.only(
-                                      bottomLeft: Radius.circular(5),
-                                      bottomRight: Radius.circular(5))),
-                              padding: const EdgeInsets.all(8),
-                              alignment: Alignment.center,
-                              child: const Text(
-                                'ADD TO CART',
-                                style: TextStyle(
-                                    color: Colors.white,
-                                    fontSize: 18,
-                                    fontWeight: FontWeight.w500),
-                              ),
-                            ),
-                          );
-                        
-                        
+
+
+
                           },
                           child: Container(
                             width: MediaQuery.of(context).size.width,

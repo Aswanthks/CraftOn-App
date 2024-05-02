@@ -18,8 +18,9 @@ class _UserComplaintViewScreenState extends State<UserComplaintViewScreen> {
 
   Future<dynamic> fetchComplaints(String loginId) async {
     final response = await http.get(
-      Uri.parse('https://vadakara-mca-craft-backend.onrender.com/api/user/view-complaint-user/$loginId'),
+      Uri.parse('https://vadakara-mca-craft-backend.onrender.com/api/user/view-complaint-user/${DbService.getLoginId()}'),
     );
+    print(DbService.getLoginId());
 
     if (response.statusCode == 200) {
       final List<dynamic> data = jsonDecode(response.body)['data'];

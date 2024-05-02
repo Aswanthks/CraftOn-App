@@ -21,6 +21,8 @@ class _ComplaintViewScreenState extends State<ComplaintViewScreen> {
       Uri.parse('https://vadakara-mca-craft-backend.onrender.com/api/user/view-complaint/$loginId'),
     );
 
+    print(response.body);
+
     if (response.statusCode == 200) {
       final List<dynamic> data = jsonDecode(response.body)['data'];
 

@@ -9,9 +9,14 @@ import '../../../../servieces/api_service.dart';
 import '../../../../widgets/custom_button.dart';
 import '../single_product_screen.dart';
 
-class AllProductGridWidget extends StatelessWidget {
+class AllProductGridWidget extends StatefulWidget {
   AllProductGridWidget({super.key});
 
+  @override
+  State<AllProductGridWidget> createState() => _AllProductGridWidgetState();
+}
+
+class _AllProductGridWidgetState extends State<AllProductGridWidget> {
   Future<List<dynamic>> fetchProducts() async {
     try {
       final response = await http.get(
@@ -122,9 +127,20 @@ class AllProductGridWidget extends StatelessWidget {
                                     child: CustomButton(
                                       text: 'Add To Cart',
                                       onPressed: () async{
-                                        // await ApiService().addToCart(
-                                        //     loginId: DbService.getLoginId()!,
-                                        //     productId: , price: price, context: context)
+
+
+                                        await ApiService().addToCart(
+                                            loginId: DbService.getLoginId()!,
+                                            productId: productList[index]['_id'] ,
+                                            price: double.parse(productList[index]['price']), context: context);
+
+                                        setState(() {
+
+                                        });
+
+
+
+
 
                                       },
                                     ),

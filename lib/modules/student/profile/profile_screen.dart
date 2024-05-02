@@ -1,5 +1,6 @@
 import 'dart:convert';
 
+import 'package:crafton_final/modules/student/review.dart';
 import 'package:flutter/material.dart';
 import 'package:line_awesome_flutter/line_awesome_flutter.dart';
 
@@ -135,7 +136,13 @@ class _StudentProfileScreenState extends State<StudentProfileScreen> {
                       ),
 
                       ListTile(
-                        onTap: () {},
+                        onTap: () {
+
+                          Navigator.push(context,MaterialPageRoute(builder: (context) => FeedBackScreen(),));
+
+
+
+                        },
                         title: Text('Review'),
                         trailing: Icon(Icons.arrow_circle_right),
                       ),
