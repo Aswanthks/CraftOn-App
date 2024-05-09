@@ -20,7 +20,7 @@ class _UserComplaintViewScreenState extends State<UserComplaintViewScreen> {
     final response = await http.get(
       Uri.parse('https://vadakara-mca-craft-backend.onrender.com/api/user/view-complaint-user/${DbService.getLoginId()}'),
     );
-    print(DbService.getLoginId());
+
 
     if (response.statusCode == 200) {
       final List<dynamic> data = jsonDecode(response.body)['data'];
@@ -45,6 +45,10 @@ class _UserComplaintViewScreenState extends State<UserComplaintViewScreen> {
           } else if (snapshot.hasError) {
             return Center(child: Text('Error: ${snapshot.error}'));
           } else {
+
+            print(snapshot.data);
+
+
             return snapshot.data!.length == 0 ? Center(child: Text('No complaints'),)  : ListView.builder(
               itemCount: snapshot.data!.length,
               itemBuilder: (context, index) => ListTile(
@@ -52,24 +56,14 @@ class _UserComplaintViewScreenState extends State<UserComplaintViewScreen> {
                   showDialog(
                     context: context,
                     builder: (context) => AlertDialog(
-                      actions: [
-                        CustomButton(
-                          text: 'Reply',
-                          onPressed: () {
-                            // Handle replay button pressed
-                          },
-                        )
-                      ],
-                      title: CustomTextField(
-                        hintText: 'Enter reply',
-                        controller: _replyController,
-                        labelText: 'Reply',
-                      ),
-                    ),
-                  );
+                      title: Text("Reply"),
+
+                      content: Text(snapshot.data![index]['reply'].length != 0 ?  snapshot.data![index]['reply'] : 'replayed soon'),
+                  ));
                 },
                 leading: Icon(Icons.message),
-                title: Text(snapshot.data![index]),
+                title: Text(snapshot.data![index]['title']),
+                subtitle: Text(snapshot.data![index]['complaint']),
               ),
             );
           }
