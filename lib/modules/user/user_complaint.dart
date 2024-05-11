@@ -58,7 +58,7 @@ class _UserComplaintViewScreenState extends State<UserComplaintViewScreen> {
                     builder: (context) => AlertDialog(
                       title: Text("Reply"),
 
-                      content: Text(snapshot.data![index]['reply'].length != 0 ?  snapshot.data![index]['reply'] : 'replayed soon'),
+                      content: Text(snapshot.data![index]['reply'].length != 0 ?  snapshot.data![index]['reply'] : 'replied soon'),
                   ));
                 },
                 leading: Icon(Icons.message),

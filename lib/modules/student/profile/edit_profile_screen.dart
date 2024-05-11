@@ -139,14 +139,6 @@ class _EditStudentsProfileState extends State<EditStudentsProfile> {
                       labelText: 'Mobile number',
                     ),
                   ),
-                  Padding(
-                    padding: EdgeInsets.symmetric(horizontal: 15, vertical: 10),
-                    child: CustomTextField(
-                      controller: _addressController,
-                      hintText: 'Enter your address',
-                      labelText: 'Address',
-                    ),
-                  ),
 
 
                   Padding(
@@ -177,7 +169,7 @@ class _EditStudentsProfileState extends State<EditStudentsProfile> {
                             academicYear: _accadmicYeae.text ,
                             courseName:  _courseNameController.text,
                             stream: _stramControlller.text,
-                            address : _addressController.text
+                            address : 'address'
                             );
 
                              Navigator.pop(context,true);

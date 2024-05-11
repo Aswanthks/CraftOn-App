@@ -18,8 +18,11 @@ class _FeedBackScreenState extends State<FeedBackScreen> {
 
   Future<dynamic> fetchComplaints(String loginId) async {
     final response = await http.get(
-      Uri.parse('https://vadakara-mca-craft-backend.onrender.com/api/user/view-complaint/$loginId'),
+      Uri.parse('https://vadakara-mca-craft-backend.onrender.com/api/student/view-feedback-student/$loginId'),
     );
+
+    print('------------------------------------------------');
+    print(response.body);
 
     if (response.statusCode == 200) {
       final List<dynamic> data = jsonDecode(response.body)['data'];
@@ -44,31 +47,23 @@ class _FeedBackScreenState extends State<FeedBackScreen> {
           } else if (snapshot.hasError) {
             return Center(child: Text('Error: ${snapshot.error}'));
           } else {
+
             return snapshot.data!.length == 0 ? Center(child: Text('No complaints'),)  : ListView.builder(
               itemCount: snapshot.data!.length,
               itemBuilder: (context, index) => ListTile(
-                onTap: () {
-                  showDialog(
-                    context: context,
-                    builder: (context) => AlertDialog(
-                      actions: [
-                        CustomButton(
-                          text: 'Reply',
-                          onPressed: () {
-                            // Handle replay button pressed
-                          },
-                        )
-                      ],
-                      title: CustomTextField(
-                        hintText: 'Enter reply',
-                        controller: _replyController,
-                        labelText: 'Reply',
-                      ),
-                    ),
-                  );
-                },
                 leading: Icon(Icons.message),
-                title: Text(snapshot.data![index]),
+                title: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+
+                    Text(snapshot.data![index]['name'],style: TextStyle(color: Colors.blue),),
+                    SizedBox(height: 5,),
+                      Text(snapshot.data![index]['feedback']),
+
+
+                  ],
+                ),
+                subtitle: Text(snapshot.data![index]['product'],),
               ),
             );
           }

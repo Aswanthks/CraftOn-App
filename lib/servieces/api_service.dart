@@ -329,28 +329,22 @@ class ApiService {
 
   //update profile
 
-  Future<void> updateProfile({
-    required BuildContext context,
-    required String id,
-    required String name,
-    required String mobile,
-    required String academicYear,
-    required String courseName,
-    required String stream,
-    required String address
-  }) async {
+  Future<void> updateProfile(
+      {required BuildContext context,
+      required String id,
+      required String name,
+      required String mobile,
+      required String academicYear,
+      required String courseName,
+      required String stream,
+      required String address}) async {
     try {
       final Uri url = Uri.parse('$baseUrl/api/student/update-profile');
-      final response = await http.post(
-
-        url,
-
-         body:  {
-        'name' : name,
+      final response = await http.post(url, body: {
+        'name': name,
         'mobile': mobile,
-        'academic_year' : academicYear,
-        'course_name' : courseName,
-           'address' : address,
+        'academic_year': academicYear,
+        'course_name': courseName,
         'id': DbService.getLoginId()
       });
 
@@ -384,7 +378,6 @@ class ApiService {
     required double price,
     required BuildContext context,
   }) async {
-
     try {
       final response = await http.post(
         Uri.parse(
@@ -441,74 +434,64 @@ class ApiService {
     }
   }
 
-
-
-  Future<void> deleteCartItem(String id,BuildContext  context) async {
-  try {
-    final response = await http.get(
-      Uri.parse('${ApiService.baseUrl}/api/user/delete-cart/$id'),
-    );
-    if (response.statusCode == 200) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text('Item deleted successfully')),
+  Future<void> deleteCartItem(String id, BuildContext context) async {
+    try {
+      final response = await http.get(
+        Uri.parse('${ApiService.baseUrl}/api/user/delete-cart/$id'),
       );
-    } else {
+      if (response.statusCode == 200) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(content: Text('Item deleted successfully')),
+        );
+      } else {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(content: Text('Failed to delete item')),
+        );
+      }
+    } catch (e) {
       ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text('Failed to delete item')),
-      );
-    }
-  } catch (e) {
-    ScaffoldMessenger.of(context).showSnackBar(
-      SnackBar(content: Text('Failed to delete item: $e')),
-    );
-  }
-
-
-
-
-  
-}
-
-
-
-
-
-
-Future<void> orderProduct({
-  required String loginId,
-  required  BuildContext context}) async {
-  try {
-    final response = await http.post(
-      Uri.parse('$baseUrl/api/user/order-product/$loginId'),
-    );
-
-    print(response.body);
-    if (response.statusCode == 200) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text('Product ordered successfully')),
-        
-      );
-         Navigator.push(context, MaterialPageRoute(builder: (context) => OrderPlaced(),));
-    } else {
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text('Failed to order product')),
+        SnackBar(content: Text('Failed to delete item: $e')),
       );
     }
-  } catch (e) {
-    ScaffoldMessenger.of(context).showSnackBar(
-      SnackBar(content: Text('Failed to order product: $e')),
-    );
   }
-}
 
-  Future<void> updateUserProfile({
-    required String loginId,
-    required String name,
-    required String mobile,
-    required String address,
-    required  BuildContext context
-  }) async {
-    final url = Uri.parse('$baseUrl/api/user/update-user-profile/${DbService.getLoginId()}');
+  Future<void> orderProduct(
+      {required String loginId, required BuildContext context}) async {
+    try {
+      final response = await http.post(
+        Uri.parse('$baseUrl/api/user/order-product/$loginId'),
+      );
+
+      print(response.body);
+      if (response.statusCode == 200) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(content: Text('Product ordered successfully')),
+        );
+        Navigator.push(
+            context,
+            MaterialPageRoute(
+              builder: (context) => OrderPlaced(),
+            ));
+      } else {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(content: Text('Failed to order product')),
+        );
+      }
+    } catch (e) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text('Failed to order product: $e')),
+      );
+    }
+  }
+
+  Future<void> updateUserProfile(
+      {required String loginId,
+      required String name,
+      required String mobile,
+      required String address,
+      required BuildContext context}) async {
+    final url = Uri.parse(
+        '$baseUrl/api/user/update-user-profile/${DbService.getLoginId()}');
 
     final headers = {'Content-Type': 'application/json'};
 
@@ -524,28 +507,20 @@ Future<void> orderProduct({
       print(response.body);
 
       if (response.statusCode == 200) {
-
-        ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text('Successfull')));
-
-
-
-
+        ScaffoldMessenger.of(context)
+            .showSnackBar(SnackBar(content: Text('Successfull')));
       } else {
-
-        ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text('Faild')));
-
-
-
+        ScaffoldMessenger.of(context)
+            .showSnackBar(SnackBar(content: Text('Faild')));
       }
     } catch (e) {
-      ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text('Faild')));
-
-
+      ScaffoldMessenger.of(context)
+          .showSnackBar(SnackBar(content: Text('Faild')));
     }
   }
 
-
-  Future<void> confirmOrder({required BuildContext context,required String orderId}) async {
+  Future<void> confirmOrder(
+      {required BuildContext context, required String orderId}) async {
     final url = Uri.parse('$baseUrl/api/student/confirm-order/$orderId');
 
     try {
@@ -571,113 +546,95 @@ Future<void> orderProduct({
     }
   }
 
-
-
   Future<void> addComplaint({
-    required String loginId, 
-    required String productId, 
+    required String loginId,
+    required String productId,
     required String complaint,
     required BuildContext context,
     required String title,
-    }) async {
-  final url = 'https://vadakara-mca-craft-backend.onrender.com/api/user/add-complaint';
-  try {
-    final response = await http.post(
-      Uri.parse(url),
-      body: {
-        'login_id': loginId,
-        'product_id': productId,
-        'complaint': complaint,
-        'title' :  title
-
-      },
-    );
-
-    if (response.statusCode == 200) {
-      final responseData = jsonDecode(response.body);
-      
-      // Show a Snackbar with the title
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(
-          content: Text('Complaint added'),
-        ),
-      );
-    } else {
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(
-          content: Text('Failed to add complaint'),
-        ),
-      );
-    }
-  } catch (e) {
-    ScaffoldMessenger.of(context).showSnackBar(
-      SnackBar(
-        content: Text('Error: $e'),
-      ),
-    );
-  }
-}
-
-
-Future<void> addFeedback({
-  required String loginId,
-  required String productId, 
-  required String feedback,
-  required BuildContext context
-  
   }) async {
-  final url = 'https://vadakara-mca-craft-backend.onrender.com/api/user/add-feedback';
-  try {
-    final response = await http.post(
-      Uri.parse(url),
-      body: {
-        'login_id': loginId,
-        'product_id': productId,
-        'feedback': feedback,
-        'reply': '....',
-      },
-    );
-
-    if (response.statusCode == 200) {
-      final responseData = jsonDecode(response.body);
-
-
-      print(responseData);
-      
-      // Show a Snackbar with the message
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(
-          content: Text('Feedback added'),
-        ),
+    final url =
+        'https://vadakara-mca-craft-backend.onrender.com/api/user/add-complaint';
+    try {
+      final response = await http.post(
+        Uri.parse(url),
+        body: {
+          'login_id': loginId,
+          'product_id': productId,
+          'complaint': complaint,
+          'title': title
+        },
       );
-    } else {
+
+      if (response.statusCode == 200) {
+        final responseData = jsonDecode(response.body);
+
+        // Show a Snackbar with the title
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: Text('Complaint added'),
+          ),
+        );
+      } else {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: Text('Failed to add complaint'),
+          ),
+        );
+      }
+    } catch (e) {
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
-          content: Text('Failed to add feedback'),
+          content: Text('Error: $e'),
         ),
       );
     }
-  } catch (e) {
-    ScaffoldMessenger.of(context).showSnackBar(
-      SnackBar(
-        content: Text('Error: $e'),
-      ),
-    );
   }
-}
 
+  Future<void> addFeedback(
+      {required String loginId,
+      required String productId,
+      required String feedback,
+      required BuildContext context}) async {
+    final url =
+        'https://vadakara-mca-craft-backend.onrender.com/api/user/add-feedback';
+    try {
+      final response = await http.post(
+        Uri.parse(url),
+        body: {
+          'login_id': loginId,
+          'product_id': productId,
+          'feedback': feedback,
+          'reply': '....',
+        },
+      );
 
+      if (response.statusCode == 200) {
+        final responseData = jsonDecode(response.body);
 
+        print(responseData);
 
-
-
-
-
-
-
-
-
-
+        // Show a Snackbar with the message
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: Text('Feedback added'),
+          ),
+        );
+      } else {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: Text('Failed to add feedback'),
+          ),
+        );
+      }
+    } catch (e) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text('Error: $e'),
+        ),
+      );
+    }
+  }
 
 //all product
 }
